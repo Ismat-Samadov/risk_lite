@@ -151,9 +151,11 @@ export function GameMap({ state, onSelectTerritory }: GameMapProps) {
               key={t.id}
               className={getNodeClass(t.id)}
               onClick={() => handleClick(t.id)}
-              whileHover={isPlayerTurn ? { scale: 1.12 } : {}}
-              whileTap={isPlayerTurn ? { scale: 0.92 } : {}}
-              style={{ originX: t.position.x, originY: t.position.y }}
+              whileHover={isPlayerTurn ? { scale: 1.1 } : {}}
+              whileTap={isPlayerTurn ? { scale: 0.93 } : {}}
+              // transformOrigin must be the absolute SVG coordinate of the circle centre
+              // so the node scales around its own centre rather than the SVG (0,0) point.
+              style={{ transformOrigin: `${t.position.x}px ${t.position.y}px` }}
             >
               {/* Outer glow ring for selected/targeted */}
               {(selected || validTarget) && (

@@ -261,11 +261,19 @@ export function useGame() {
         if (!prev.players[prev.currentPlayer]?.isAI) return prev;
 
         // ── AI: Setup ────────────────────────────────────────────────────
+        // Place ALL consecutive AI setup troops in one state update so setup
+        // doesn't take 30+ seconds at 700 ms per troop.
         if (prev.phase === 'setup') {
-          if (prev.troopsToPlace <= 0) return advanceSetupTurn(prev);
-          const tid = aiChoosePlacement(prev, difficulty);
-          const updated = applySetupPlacement(prev, tid);
-          return updated;
+          let s = prev;
+          while (
+            s.phase === 'setup' &&
+            s.players[s.currentPlayer]?.isAI &&
+            s.setupTroopsLeft[s.currentPlayer] > 0
+          ) {
+            const tid = aiChoosePlacement(s, s.players[s.currentPlayer].difficulty ?? difficulty);
+            s = applySetupPlacement(s, tid);
+          }
+          return s;
         }
 
         // ── AI: Place ────────────────────────────────────────────────────
@@ -394,10 +402,15 @@ function executeAttack(
   let message = '';
 
   if (combat.conquered) {
-    // Move at least 1 (up to all attacking dice count) troops in
-    const movedTroops = Math.max(1, (diceCount ?? prev.attackDiceCount) - combat.attackerLosses);
-    newFrom.troops = Math.max(1, newFrom.troops - movedTroops + combat.attackerLosses);
-    newTo = { owner: prev.currentPlayer, troops: movedTroops };
+    // newFrom.troops already has attackerLosses subtracted above.
+    // Move the number of dice used into the conquered territory (minimum 1),
+    // but keep at least 1 troop in the source so it never empties.
+    const remaining = newFrom.troops; // = from.troops - attackerLosses
+    const diceUsed = diceCount ?? prev.attackDiceCount;
+    const moved = Math.max(1, Math.min(diceUsed, Math.max(1, remaining - 1)));
+    newFrom.troops = Math.max(1, remaining - moved);
+    // Use the actual difference so troops are perfectly conserved.
+    newTo = { owner: prev.currentPlayer, troops: remaining - newFrom.troops };
     message = `Conquered! ${prev.players[prev.currentPlayer].name} took the territory!`;
   } else {
     message = `Battle: attacker lost ${combat.attackerLosses}, defender lost ${combat.defenderLosses}`;
