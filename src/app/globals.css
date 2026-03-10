@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/* ── Custom neon theme variables ── */
+:root {
+  --bg: #030712;
+  --neon-cyan: #00f5ff;
+  --neon-red: #ff4757;
+  --neon-green: #2ed573;
+  --neon-orange: #ffa502;
+}
+
+/* ── Base resets ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: white;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.02);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0,245,255,0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,245,255,0.4);
+}
+
+/* ── Neon glow text utility ── */
+.neon-text {
+  text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan);
+}
+
+/* ── Touch-action fix for SVG on mobile ── */
+svg {
+  touch-action: manipulation;
+}

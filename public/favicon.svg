@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0a1628"/>
+      <stop offset="100%" stop-color="#030712"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="31" fill="url(#bg)" stroke="#00f5ff" stroke-width="1.5" opacity="0.9"/>
+
+  <!-- Globe meridians/parallels -->
+  <circle cx="32" cy="32" r="20" fill="none" stroke="#00f5ff" stroke-width="0.8" opacity="0.3"/>
+  <ellipse cx="32" cy="32" rx="12" ry="20" fill="none" stroke="#00f5ff" stroke-width="0.8" opacity="0.3"/>
+  <line x1="12" y1="32" x2="52" y2="32" stroke="#00f5ff" stroke-width="0.8" opacity="0.3"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="#00f5ff" stroke-width="0.8" opacity="0.3"/>
+
+  <!-- Territory nodes with glow -->
+  <circle cx="22" cy="24" r="4" fill="#00f5ff" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="38" cy="20" r="3" fill="#ff4757" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="44" cy="34" r="4" fill="#2ed573" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="28" cy="40" r="3" fill="#ffa502" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="18" cy="38" r="2.5" fill="#00f5ff" opacity="0.7" filter="url(#glow)"/>
+
+  <!-- Connecting lines -->
+  <line x1="22" y1="24" x2="38" y2="20" stroke="#00f5ff" stroke-width="1" opacity="0.5"/>
+  <line x1="38" y1="20" x2="44" y2="34" stroke="#ff4757" stroke-width="1" opacity="0.5"/>
+  <line x1="44" y1="34" x2="28" y2="40" stroke="#2ed573" stroke-width="1" opacity="0.5"/>
+  <line x1="28" y1="40" x2="18" y2="38" stroke="#ffa502" stroke-width="1" opacity="0.5"/>
+  <line x1="18" y1="38" x2="22" y2="24" stroke="#00f5ff" stroke-width="1" opacity="0.5"/>
+
+  <!-- Outer ring glow -->
+  <circle cx="32" cy="32" r="31" fill="none" stroke="#00f5ff" stroke-width="0.5" opacity="0.4"/>
+</svg>
